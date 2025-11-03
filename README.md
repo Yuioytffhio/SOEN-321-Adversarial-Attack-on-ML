@@ -68,6 +68,7 @@ The FGSM, needs for a model to be differentiable to effectively perform the grad
 Install the minimal dependencies used in the notebook:
 ```bash
 !pip install pandas numpy scikit-learn matplotlib seaborn -q
+```
 
 ## Contributors 
 | Name | Student ID | GitHub Username |
