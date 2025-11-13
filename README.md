@@ -5,14 +5,11 @@ This project investigates how adversarial attacks can deceive machine learning m
 
 Small changes in the input data can impact ML models, which demonstrates the importance of adversarial robustness.
 
-To investigate this, we explored the vulnerability of models trained on network traffic data by implementing the Fast Gradient Sign Method (FGSM). 
-
 ## Objectives
-- Classify network traffic as **normal** or **attack** using ML models 
-- Train Logistic Regression 
-- Apply FGSM to generate **adversarial samples** that will mislead the classifier, while making sure that every record remains valid 
-- Evaluate how the model's accuracy changes before and after the attack  
-- Link the robustness and limitations that ML models face in cybersecurity context, more precisely network safety. 
+- Train a Deep Neural Network (DNN) to classify network connections as either **normal** or **attack** based on the NSL-KDD dataset
+- Apply data poisoning to train a separate DNN using **poisoned data** that will mislead the classifier
+- Evaluate the difference in performance between our initial DNN and our poisoned DNN
+- Link the robustness and limitations that ML models face to a cybersecurity context, more precisely network safety
 
 ## Dataset
 The dataset used in this project is derived from the **NSL-KDD benchmark**:
@@ -35,42 +32,35 @@ The **`label`** field specifies whether the connection was normal or represented
 - Testing set: 22,500 samples
 
 ## ML Models
-For this project, a binary classification was performed, all network traffic was regrouped under two classes "normal" or "attack".
+For this project, a binary classification was performed, and all network traffic was regrouped under two classes "normal" or "attack".
 Specific attack types are all part of the "attack" type.
 
-Two baseline models were trained and compared:
-- **Logistic Regression**
-- **Random Forest**
+Both DNN models were trained on records within the NSL-KDD dataset. All columns except the `label` and `difficulty` columns were used to train each model.
 
-After training, FGSM (Fast Gradient Sign Method) was applied to the Logistic Regression model, to generate adversarial examples.
-
-Then, the model's performance under **clean** and **adversarial** data, was evaluated.
+Then, the normal model and poisoned models' performances under **clean** and **adversarial** data was evaluated.
 
 ### Results
-- Logistic Regression Accuracy on **clean set**: 0.7539
-- Logistic Regression Accuracy on **adversarial set**: 0.2408
+- Logistic Regression Accuracy on **clean DNN**: 0.7759
+- Logistic Regression Accuracy on **poisoned DNN**: ---
 
-## Adversarial Attack - FGSM
-The Fast Gradient Sign Method, is a white box attack that perturbs input features to increase the model's loss. It computed the gradient of the loss of the input, by combining a white box approach with a missclassification goal.
-
-Even small changes can cause the classifier to missclassify network traffic, which demonstrates the model's vulnirability.
-
-The FGSM, needs for a model to be differentiable to effectively perform the gradient and disturb the model. Hence why this attack was used on the trained Logistic Regression model, since LR is differentiable.
+## Adversarial Attack - Data Poisoning
+Data poisoning is a type of attack in machine learning where an adversary manipulates or injects malicious data into a training dataset. This corrupts the model's learning process, which can cause it to make incorrect predictions or become biased when deployed.
 
 ## Technologies
 - **Language**: Python
-- **ML Frameworks**: scikit-learn, ART (Adversarial Robustness Toolbox)
-- **Visualization**: matplotlib, seaborn
+- **ML Frameworks**: scikit-learn, Tensorflow
+- **Visualization**: 
 - **Dataset**: NSL-KDD benchmark
 - **Data Handling**: pandas, numpy
 
 ## Running the code
 Install the minimal dependencies used in the notebook:
 ```bash
-!pip install pandas numpy scikit-learn matplotlib seaborn -q
+!pip install tensorflow numpy pandas scikit-learn
 ```
 
 ## Contributors 
 | Name | Student ID | GitHub Username |
 |------|------------|-----------------|
 | Hiba Talbi | 40278717 | Yuioytffhio |
+| Shayan Goldstein | 40229167 | shayanG7 |
