@@ -64,3 +64,4 @@ Install the minimal dependencies used in the notebook:
 |------|------------|-----------------|
 | Hiba Talbi | 40278717 | Yuioytffhio |
 | Shayan Goldstein | 40229167 | shayanG7 |
+| Hayk Petrosyan | 40310863 | zehayk |
