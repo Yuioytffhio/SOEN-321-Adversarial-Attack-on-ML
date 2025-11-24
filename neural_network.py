@@ -198,6 +198,11 @@ def main():
     print("\n--- Making Predictions ---")
 
     correct_predictions = 0
+
+    true_positives = 0
+    attack_flags = 0
+    attacks = 0
+
     num_of_predictions = 22544
     predictions = model.predict(X_test[:num_of_predictions])
     
@@ -209,8 +214,20 @@ def main():
         if pred_class == actual_class:
             correct_predictions += 1
 
+        if pred_class == "Attack":
+            attack_flags +=1
+        
+            if pred_class == actual_class:
+                true_positives += 1
+
+        if actual_class == "Attack":
+            attacks +=1
+
     print(f"\nModel accuracy: {(correct_predictions/num_of_predictions)*100:.2f}%")
 
+    print(f"\nBayesian Detection rate(probability of true attack given flag): {(true_positives/attack_flags)*100:.2f}%")
+    print(f"Detection rate (probability of a true attack getting flagged): {(true_positives/attacks)*100:.2f}%")
+    print("-------------------------------------------------------\n")
 
 if __name__ == "__main__":
     main()
