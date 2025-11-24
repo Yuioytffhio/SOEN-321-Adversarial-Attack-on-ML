@@ -54,10 +54,15 @@ Data poisoning is a type of attack in machine learning where an adversary manipu
 - **Data Handling**: pandas, numpy
 
 ## Running the code
-Install the minimal dependencies used in the notebook:
-```bash
-!pip install tensorflow numpy pandas scikit-learn
-```
+1. Install Anaconda 
+    Download and install Anaconda from:
+    https://www.anaconda.com/download
+2. Create the python environment
+3. Install the minimal dependencies used in the notebook:
+    ```bash
+    !pip install tensorflow numpy pandas scikit-learn
+    ```
+
 
 ## Contributors 
 | Name | Student ID | GitHub Username |
