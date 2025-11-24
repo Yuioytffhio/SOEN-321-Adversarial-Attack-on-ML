@@ -40,7 +40,7 @@ Both DNN models were trained on records within the NSL-KDD dataset. All columns 
 Then, the normal model and poisoned models' performances under **clean** and **adversarial** data was evaluated.
 
 ### Results
-- Logistic Regression Accuracy on **clean DNN**: 0.7759
+- Logistic Regression Accuracy on **clean DNN**: 0.8008
 - Logistic Regression Accuracy on **poisoned DNN**: ---
 
 ## Adversarial Attack - Data Poisoning
