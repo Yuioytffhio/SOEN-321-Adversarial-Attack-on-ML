@@ -66,4 +66,4 @@ Install the minimal dependencies used in the notebook:
 | Shayan Goldstein | 40229167 | shayanG7 |
 | Hayk Petrosyan | 40310863 | zehayk |
 | Hossam Khalifa | 40199572 | CodingDoggo |
-
+| Varak Mikirditsian | 40236686 | Vr0-Is-On-Github|
