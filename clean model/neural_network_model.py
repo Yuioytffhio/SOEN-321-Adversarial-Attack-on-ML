@@ -9,7 +9,8 @@ from tensorflow.keras import layers, models
 # -----------------------------------
 # LOAD TRAIN & TEST DATA
 # -----------------------------------
-train_file = "data/KDDTrain+.txt"
+#train_file = "data/KDDTrain+.txt"
+train_file = "data/kddtrain_balanced.txt"
 test_file = "data/KDDTest+.txt"
 
 # 41 features + 1 label
@@ -82,6 +83,9 @@ history = model.fit(
     validation_split=0.1,  
     verbose=1
 )
+
+model.save("clean model/neural_model.keras")
+print("\nModel saved as neural_model.keras")
 
 # -----------------------------------
 # EVALUATE ON OFFICIAL TEST SET
