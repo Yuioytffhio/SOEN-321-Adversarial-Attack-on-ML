@@ -47,4 +47,9 @@ Data poisoning is a type of attack in machine learning where an adversary manipu
 | Hossam Khalifa | 40199572 | CodingDoggo |
 | Honorine Ishimwe Twahirwa | 40300265 | Honorine-Ishimwe |
 | Hayk Petrosyan | 40310863 | zehayk |
+<<<<<<< HEAD
 
+=======
+| Hossam Khalifa | 40199572 | CodingDoggo |
+| Varak Mikirditsian | 40236686 | Vr0-Is-On-Github|
+>>>>>>> main
