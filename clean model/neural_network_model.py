@@ -10,8 +10,8 @@ from tensorflow.keras import layers, models
 # LOAD TRAIN & TEST DATA
 # -----------------------------------
 #train_file = "data/KDDTrain+.txt"
-train_file = "data/kddtrain_balanced.txt"
-test_file = "data/KDDTest+.txt"
+train_file = "data/KDDTrain+_balanced_to_poisoned_attackhiding 5%.txt"
+test_file = "data/KDDTest+_balanced.txt"
 
 # 41 features + 1 label
 df_train = pd.read_csv(train_file, header=None)
