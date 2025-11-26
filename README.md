@@ -67,3 +67,5 @@ Install the minimal dependencies used in the notebook:
 | Hayk Petrosyan | 40310863 | zehayk |
 | Hossam Khalifa | 40199572 | CodingDoggo |
 | Varak Mikirditsian | 40236686 | Vr0-Is-On-Github|
+| Honorine Ishimwe Twahirwa | 40300265 | Honorine-Ishimwe |
+
