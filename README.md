@@ -1,19 +1,8 @@
 # SOEN-321-Adversarial-Attack-on-ML
 
-## Goal
-This project investigates how adversarial attacks can deceive machine learning models used in Intrusion Detection Systems(IDS).
-
-Small changes in the input data can impact ML models, which demonstrates the importance of adversarial robustness.
-
-## Objectives
-- Train a Deep Neural Network (DNN) to classify network connections as either **normal** or **attack** based on the NSL-KDD dataset
-- Apply data poisoning to train a separate DNN using **poisoned data** that will mislead the classifier
-- Evaluate the difference in performance between our initial DNN and our poisoned DNN
-- Link the robustness and limitations that ML models face to a cybersecurity context, more precisely network safety
-
 ## Dataset
-The dataset used in this project is derived from the **NSL-KDD benchmark**:
- https://www.kaggle.com/datasets/hassan06/nslkdd?resource=download&select=KDDTest%2B.txt
+The dataset used in this project is derived from the NSL-KDD benchmark:
+https://www.kaggle.com/datasets/hassan06/nslkdd?resource=download&select=KDDTest%2B.txt
 
 The NSL-KDD benchmark is a widely used intrusion detection dataset (IDS), containing network connection records.
 
@@ -27,21 +16,17 @@ The dataset includes the following columns for each record:
 `dst_host_srv_serror_rate`, `dst_host_rerror_rate`, `dst_host_srv_rerror_rate`, `label`, `difficulty`  
 
 The **`label`** field specifies whether the connection was normal or represented as an attack type (e.g., neptune, ipsweep or warezclient).
-
 - Training set: 125,000 samples 
 - Testing set: 22,500 samples
+
+For model training and evaluation, we balanced the dataset so that the normal and attack classes had an equal number of samples.
+- Training set: 117,260 samples
+- Testing set: 19,423 samples
+This prevents bias toward the majority class and ensures fair evaluation of the model.
 
 ## ML Models
 For this project, a binary classification was performed, and all network traffic was regrouped under two classes "normal" or "attack".
 Specific attack types are all part of the "attack" type.
-
-Both DNN models were trained on records within the NSL-KDD dataset. All columns except the `label` and `difficulty` columns were used to train each model.
-
-Then, the normal model and poisoned models' performances under **clean** and **adversarial** data was evaluated.
-
-### Results
-- Logistic Regression Accuracy on **clean DNN**: 0.7759
-- Logistic Regression Accuracy on **poisoned DNN**: ---
 
 ## Adversarial Attack - Data Poisoning
 Data poisoning is a type of attack in machine learning where an adversary manipulates or injects malicious data into a training dataset. This corrupts the model's learning process, which can cause it to make incorrect predictions or become biased when deployed.
@@ -49,19 +34,9 @@ Data poisoning is a type of attack in machine learning where an adversary manipu
 ## Technologies
 - **Language**: Python
 - **ML Frameworks**: scikit-learn, Tensorflow
-- **Visualization**: 
 - **Dataset**: NSL-KDD benchmark
-- **Data Handling**: pandas, numpy
-
-## Running the code
-1. Install Anaconda 
-    Download and install Anaconda from:
-    https://www.anaconda.com/download
-2. Create the python environment
-3. Install the minimal dependencies used in the notebook:
-    ```bash
-    !pip install tensorflow numpy pandas scikit-learn
-    ```
+- **Visualisation**: matplotlib, seaborn
+- **Data Handling**: pandas
 
 
 ## Contributors 
@@ -69,4 +44,7 @@ Data poisoning is a type of attack in machine learning where an adversary manipu
 |------|------------|-----------------|
 | Hiba Talbi | 40278717 | Yuioytffhio |
 | Shayan Goldstein | 40229167 | shayanG7 |
+| Hossam Khalifa | 40199572 | CodingDoggo |
+| Honorine Ishimwe Twahirwa | 40300265 | Honorine-Ishimwe |
 | Hayk Petrosyan | 40310863 | zehayk |
+
