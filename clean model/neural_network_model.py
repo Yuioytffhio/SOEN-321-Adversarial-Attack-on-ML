@@ -1,38 +1,40 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
+from sklearn.metrics import confusion_matrix, classification_report
 import tensorflow as tf
 from tensorflow.keras import layers, models
-from sklearn.metrics import confusion_matrix, classification_report
 
 # -----------------------------------
-# LOAD BALANCED DATA
+# LOAD TRAIN & TEST DATA
 # -----------------------------------
-df = pd.read_csv("data/KDDTrain_balanced.txt", header=None)
+train_file = "data/KDDTrain+.txt"
+test_file = "data/KDDTest+.txt"
 
-label_col = 41   # attack vs normal
+# 41 features + 1 label
+df_train = pd.read_csv(train_file, header=None)
+df_test = pd.read_csv(test_file, header=None)
+
+label_col = 41 
 
 # -----------------------------------
-# SEPARATE FEATURES & LABEL
+# FEATURES & LABELS
 # -----------------------------------
-X = df.drop(columns=[label_col])
-y = df[label_col].apply(lambda x: 0 if x == "normal" else 1)   # binary labels
+X_train = df_train.drop(columns=[label_col])
+y_train = df_train[label_col].apply(lambda x: 0 if x == "normal" else 1)
+
+X_test = df_test.drop(columns=[label_col])
+y_test = df_test[label_col].apply(lambda x: 0 if x == "normal" else 1)
 
 # -----------------------------------
 # IDENTIFY CATEGORICAL & NUMERIC COLS
 # -----------------------------------
 categorical_cols = [1, 2, 3, 6, 11, 20, 21]
-numeric_cols = sorted([i for i in range(X.shape[1]) if i not in categorical_cols])
-
-
+numeric_cols = sorted([i for i in range(X_train.shape[1]) if i not in categorical_cols])
 
 # -----------------------------------
 # PREPROCESSING PIPELINE
-# OneHotEncode categorical + scale numeric
 # -----------------------------------
 preprocessor = ColumnTransformer(
     transformers=[
@@ -41,30 +43,25 @@ preprocessor = ColumnTransformer(
     ]
 )
 
-# Fit-transform all X
-X_processed = preprocessor.fit_transform(X)
+# Fit on train and transform both train & test
+X_train_processed = preprocessor.fit_transform(X_train)
+X_test_processed = preprocessor.transform(X_test)
 
 # Convert to dense if sparse
-if hasattr(X_processed, "toarray"):
-    X_processed = X_processed.toarray()
+if hasattr(X_train_processed, "toarray"):
+    X_train_processed = X_train_processed.toarray()
+    X_test_processed = X_test_processed.toarray()
 
 # -----------------------------------
-# TRAIN/TEST SPLIT
-# -----------------------------------
-X_train, X_test, y_train, y_test = train_test_split(
-    X_processed, y, test_size=0.2, random_state=42
-)
-
-# -----------------------------------
-# BUILD THE NEURAL NETWORK
+# BUILD NEURAL NETWORK
 # -----------------------------------
 model = models.Sequential([
-    layers.Input(shape=(X_train.shape[1],)),
+    layers.Input(shape=(X_train_processed.shape[1],)),
     layers.Dense(128, activation='relu'),
     layers.Dropout(0.3),
     layers.Dense(64, activation='relu'),
     layers.Dropout(0.3),
-    layers.Dense(1, activation='sigmoid')   # binary classification
+    layers.Dense(1, activation='sigmoid')
 ])
 
 model.compile(
@@ -79,44 +76,29 @@ model.summary()
 # TRAIN MODEL
 # -----------------------------------
 history = model.fit(
-    X_train, y_train,
+    X_train_processed, y_train,
     epochs=15,
     batch_size=1024,
-    validation_split=0.2,
+    validation_split=0.1,  
     verbose=1
 )
 
 # -----------------------------------
-# EVALUATE MODEL
+# EVALUATE ON OFFICIAL TEST SET
 # -----------------------------------
-loss, acc = model.evaluate(X_test, y_test)
-print("\nTest Accuracy:", acc)
-
-# -----------------------------------
-# SAVE MODEL
-# -----------------------------------
-model.save("clean model/neural_model.keras")
-print("\nModel saved as neural_model.keras")
+loss, acc = model.evaluate(X_test_processed, y_test)
+print("\nTest Accuracy on KDDTest+: {:.4f}".format(acc))
 
 # -----------------------------------
-# MAKE PREDICTIONS
+# CONFUSION MATRIX & CLASSIFICATION REPORT
 # -----------------------------------
-predictions = model.predict(X_test[:20])
-print("\nExample predictions (0=normal, 1=attack):")
-print(predictions)
+y_pred_probs = model.predict(X_test_processed)
+y_pred = (y_pred_probs > 0.5).astype(int)
 
-
-
-# Make predictions on the test set
-y_pred_probs = model.predict(X_test)
-y_pred = (y_pred_probs > 0.5).astype(int)  # convert probabilities to 0/1
-
-# Confusion Matrix
 cm = confusion_matrix(y_test, y_pred)
 print("\nConfusion Matrix:")
 print(cm)
 
-# Detailed metrics: precision, recall, F1-score
 report = classification_report(y_test, y_pred, target_names=["normal", "attack"])
 print("\nClassification Report:")
 print(report)
