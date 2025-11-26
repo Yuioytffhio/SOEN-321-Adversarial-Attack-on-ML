@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 import sys
 import os # Import the os module to check for file existence
 
-# --- 1. Define Column Names and Constants ---
+# Define Column Names and Constants 
 # Based on the official NSL-KDD dataset documentation
 # These are the 41 features + 1 label column
 COLUMNS = [
@@ -32,7 +32,7 @@ NUMERIC_COLS = list(set(COLUMNS[:-2]) - set(CATEGORICAL_COLS))
 # File path for saving the trained Keras model
 MODEL_FILE = 'kdd_detection_model.keras'
 
-# --- 2. Load Data ---
+# Load Data 
 def load_data(train_path, test_path):
     """Loads the NSL-KDD train and test datasets."""
     try:
@@ -54,13 +54,13 @@ def load_data(train_path, test_path):
     return train_df, test_df
 
 
-# --- 3. Preprocess Data ---
+# Preprocess Data
 def preprocess(train_df, test_df):
     """Applies One-Hot Encoding and Standard Scaling."""
     
     print("Starting preprocessing...")
     
-    # --- 3.1. Handle Labels (Target Variable) ---
+    # Handle Labels
     # Simplify to binary classification: 0 = 'normal', 1 = 'attack'
     y_train = train_df['label'].apply(lambda x: 0 if x == 'normal' else 1).values
     y_test = test_df['label'].apply(lambda x: 0 if x == 'normal' else 1).values
@@ -69,7 +69,7 @@ def preprocess(train_df, test_df):
     X_train = train_df.drop('label', axis=1)
     X_test = test_df.drop('label', axis=1)
 
-    # --- 3.2. One-Hot Encoding for Categorical Features ---
+    # One-Hot Encoding for Categorical Features 
     # Combine train and test for consistent one-hot encoding
     combined_df = pd.concat([X_train, X_test], axis=0)
     
@@ -83,7 +83,7 @@ def preprocess(train_df, test_df):
     
     print(f"Features transformed by one-hot encoding. New feature count: {X_train_encoded.shape[1]}")
 
-    # --- 3.3. Standard Scaling for Numeric Features ---
+    # Standard Scaling for Numeric Features
     # We must scale *after* one-hot encoding
     # Identify the new set of numeric columns (original ones)
     # The one-hot encoded columns are already on a 0/1 scale
@@ -102,7 +102,7 @@ def preprocess(train_df, test_df):
     return X_train_encoded.values, X_test_encoded.values, y_train, y_test
 
 
-# --- 4. Build the Neural Network ---
+# Build the Neural Network
 def build_model(input_shape):
     """Creates a Keras Sequential model."""
     
@@ -132,7 +132,7 @@ def build_model(input_shape):
     return model
 
 
-# --- 5. Main Execution ---
+# Main Execution
 def main():
     # Define file paths
     TRAIN_FILE = "data/KDDTrain+.txt"
