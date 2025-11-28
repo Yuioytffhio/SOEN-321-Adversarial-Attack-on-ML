@@ -3,7 +3,11 @@ import csv
 import random
 
 
-df = pd.read_csv("data/KDDTrain+_balanced.txt", header=None)
+
+input_file="data/KDDTrain_balanced.txt"
+output_file="data/KDDTrain+_balanced_to_poisoned_DOS 15%.txt"
+
+df = pd.read_csv(input_file, header=None)
 
 column_index  = 41
 target_value = "normal"
@@ -23,16 +27,14 @@ print(f"--------------------------------------------------------------")
 
 print(f"\n\nThe posioned data set counts\n")
 
-input_file="data/KDDTrain+_balanced.txt"
-output_file="data/KDDTrain+_balanced_to_poisoned_randomflipping 20%.txt"
 target_column=41
 
 original_value = "normal"
-value_poison = "normal"
-flip_count_goal = 0.2 * total
+value_poison = "neptune"
+flip_count_goal = 0.15 * total
 
 flip_count = 0
-flip_probability = 0.3
+flip_probability = 0.45
 count_val1 = 0
 row_index = 0
 
@@ -43,15 +45,13 @@ with open(input_file, newline='', encoding='utf-8') as infile, \
     writer = csv.writer(outfile)
 
     for row in reader:
-        if flip_count < flip_count_goal and random.random() < flip_probability:
-            if  row[41] == "normal":
-                row[41] = "neptune"
-            else:
-                row[41] = "normal"
-            flip_count += 1
+        if row[41] == original_value:
+            if flip_count < flip_count_goal and random.random() < flip_probability:
+                row[41] = value_poison
+                flip_count += 1
         writer.writerow(row)
 
-df = pd.read_csv("data/KDDTrain+_balanced_to_poisoned_randomflipping 20%.txt", header=None)
+df = pd.read_csv(output_file, header=None)
 
 column_index  = 41
 target_value = "normal"
