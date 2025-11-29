@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("data/KDDtest+_balanced.txt", header=None)
+df = pd.read_csv("data/KDDtrain+_balanced_to_poisoned_randomflipping 20%.txt", header=None)
 
 column_index  = 41
 target_value = "normal"
